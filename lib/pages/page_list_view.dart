@@ -65,25 +65,34 @@ class _PageListViewState extends State<PageListView> {
 
   @override
   Widget build(BuildContext context) {
+    Orientation orientation = MediaQuery.of(context).orientation;
+    print(orientation);
     return Scaffold(
       appBar: AppBar(
         title: Text("List View"),
       ),
       body: Center(
         child: Scrollbar(
-          child: ActiviteGrid(
-            activites: activites,
-            scrollController: scrollController,
-          ),
-        ) ,
+          child: (orientation == Orientation.portrait)
+              ? ActiviteList(
+                  activites: activites,
+                  scrollController: scrollController,
+                )
+              : ActiviteGrid(
+                  activites: activites,
+                  scrollController: scrollController,
+                ),
+        ),
       ),
     );
   }
 
-  void infinityScroll(){
-    print("Postition ${scrollController.position.pixels} | Taille Max = ${scrollController.position.maxScrollExtent}");
+  void infinityScroll() {
+    print(
+        "Postition ${scrollController.position.pixels} | Taille Max = ${scrollController.position.maxScrollExtent}");
 
-    if(scrollController.position.pixels >= scrollController.position.maxScrollExtent * 0.95){
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent * 0.95) {
       List<Activie> shuffleActivite = activites;
       shuffleActivite.shuffle();
 
@@ -94,8 +103,6 @@ class _PageListViewState extends State<PageListView> {
         activites.add(shuffleActivite[3]);
         activites.add(shuffleActivite[4]);
       });
-
     }
-
   }
 }
