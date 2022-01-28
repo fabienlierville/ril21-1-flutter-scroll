@@ -47,6 +47,21 @@ class _PageListViewState extends State<PageListView> {
     Activie(nom: "Bricolage", icone: Icons.build),
   ];
 
+  ScrollController scrollController = ScrollController();
+
+
+  @override
+  void initState() {
+    scrollController.addListener(infinityScroll);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +71,7 @@ class _PageListViewState extends State<PageListView> {
       body: Center(
         child: ListView.builder(
           itemCount: activites.length,
+          controller: scrollController,
           itemBuilder: (context, index){
             Activie activite = activites[index];
             return ListTile(
@@ -74,5 +90,10 @@ class _PageListViewState extends State<PageListView> {
         ),
       ),
     );
+  }
+
+  void infinityScroll(){
+    print("Postition ${scrollController.position.pixels} | Taille Max = ${scrollController.position.maxScrollExtent}");
+
   }
 }
