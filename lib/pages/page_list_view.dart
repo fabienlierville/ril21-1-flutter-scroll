@@ -49,7 +49,6 @@ class _PageListViewState extends State<PageListView> {
 
   ScrollController scrollController = ScrollController();
 
-
   @override
   void initState() {
     scrollController.addListener(infinityScroll);
@@ -69,31 +68,47 @@ class _PageListViewState extends State<PageListView> {
         title: Text("List View"),
       ),
       body: Center(
-        child: ListView.builder(
-          itemCount: activites.length,
-          controller: scrollController,
-          itemBuilder: (context, index){
-            Activie activite = activites[index];
-            return ListTile(
-              title: Text("Activite:"),
-              subtitle: Text(activite.nom),
-              trailing: IconButton(
-                onPressed: null,
-                icon: Icon(Icons.edit),
-              ),
-              leading: Icon(activite.icone),
-              onTap: (){
-                print(activite.nom);
-              },
-            );
-          },
-        ),
+        child: Scrollbar(
+          child: ListView.builder(
+            itemCount: activites.length,
+            controller: scrollController,
+            itemBuilder: (context, index){
+              Activie activite = activites[index];
+              return ListTile(
+                title: Text("Activite:"),
+                subtitle: Text(activite.nom),
+                trailing: IconButton(
+                  onPressed: null,
+                  icon: Icon(Icons.edit),
+                ),
+                leading: Icon(activite.icone),
+                onTap: (){
+                  print(activite.nom);
+                },
+              );
+            },
+          ),
+        ) ,
       ),
     );
   }
 
   void infinityScroll(){
     print("Postition ${scrollController.position.pixels} | Taille Max = ${scrollController.position.maxScrollExtent}");
+
+    if(scrollController.position.pixels >= scrollController.position.maxScrollExtent * 0.95){
+      List<Activie> shuffleActivite = activites;
+      shuffleActivite.shuffle();
+
+      setState(() {
+        activites.add(shuffleActivite[0]);
+        activites.add(shuffleActivite[1]);
+        activites.add(shuffleActivite[2]);
+        activites.add(shuffleActivite[3]);
+        activites.add(shuffleActivite[4]);
+      });
+
+    }
 
   }
 }
