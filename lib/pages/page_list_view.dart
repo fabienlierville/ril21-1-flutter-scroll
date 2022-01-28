@@ -69,23 +69,62 @@ class _PageListViewState extends State<PageListView> {
       ),
       body: Center(
         child: Scrollbar(
-          child: ListView.builder(
+          child: ListView.separated(
+            separatorBuilder: (context, index){
+              if((index +1) %5 == 0){
+                return Container(height: 50,color: Colors.grey,);
+              }
+              return Divider();
+            },
             itemCount: activites.length,
             controller: scrollController,
             itemBuilder: (context, index){
               Activie activite = activites[index];
-              return ListTile(
-                title: Text("Activite:"),
-                subtitle: Text(activite.nom),
-                trailing: IconButton(
-                  onPressed: null,
-                  icon: Icon(Icons.edit),
-                ),
-                leading: Icon(activite.icone),
-                onTap: (){
-                  print(activite.nom);
-                },
-              );
+              return Dismissible(
+                  key: Key(activite.nom),
+                  onDismissed: (direction){
+                    print(direction);
+                    setState(() {
+                      activites.removeAt(index);
+                    });
+                  },
+                  background: Container(
+                    color: Colors.red,
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete, color: Colors.white,),
+                        Text("Supprimer")
+                      ],
+                    ),
+                  ),
+                  secondaryBackground: Container(
+                    color: Colors.green,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text("Archiver"),
+                        Icon(Icons.folder, color: Colors.white,),
+
+                      ],
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Text("Activite:"),
+                    subtitle: Text(activite.nom),
+                    trailing: IconButton(
+                      onPressed: (){
+                        setState(() {
+                          activites[index].nom = "Toto";
+                        });
+                      },
+                      icon: Icon(Icons.edit),
+                    ),
+                    leading: Icon(activite.icone),
+                    onTap: (){
+                      print(activite.nom);
+                    },
+                  )
+              ) ;
             },
           ),
         ) ,
