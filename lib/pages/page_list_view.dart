@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scroll/models/activite.dart';
+import 'package:scroll/widgets/activite_grid.dart';
+import 'package:scroll/widgets/activite_list.dart';
 
 class PageListView extends StatefulWidget {
   const PageListView({Key? key}) : super(key: key);
@@ -69,7 +71,10 @@ class _PageListViewState extends State<PageListView> {
       ),
       body: Center(
         child: Scrollbar(
-          child: ,
+          child: ActiviteGrid(
+            activites: activites,
+            scrollController: scrollController,
+          ),
         ) ,
       ),
     );
