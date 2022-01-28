@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scroll/pages/page_list_view.dart';
 import 'package:scroll/pages/page_single_child.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: const PageSingleChild(),
+      home: const PageListView(),
     );
   }
 }
